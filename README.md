@@ -9,7 +9,8 @@ Relation Networks (RNs) is employed to associate source words with each other so
 This system has been tested in the following environment.
 + 64bit-Ubuntu
 + Python 2.7
-+ Pytorch 0.3.1 + Dependency
++ Pytorch 0.3.1
++ Dependency
 	+ download [Standford parser Version 3.8.0](https://nlp.stanford.edu/software/stanford-parser-full-2017-06-09.zip)
 	+ unzip
 	+ ``export CLASSPATH="./stanford-parser-full-2017-06-09/stanford-parser.jar:$CLASSPATH"``
