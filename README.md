@@ -19,12 +19,17 @@ This system has been tested in the following environment.
 Name the file names of the datasets according to the variables in the ``wargs.py`` file  
 Both sides of the training dataset and the source sides of the validation/test sets are tokenized by using the Standford tokenizer.
 
-#### Training dataset
+#### Toy Dataset
++ The training data consists of 44K sentences from the tourism and travel domain
++ Validation Set was composed of the ASR devset 1 and devset 2 from IWSLT 2005
++ Testing dataset is the IWSLT 2005 test set.
+
+#### Training Dataset
 
 + **Source side**: ``dir_data + train_prefix + '.' + train_src_suffix``  
 + **Target side**: ``dir_data + train_prefix + '.' + train_trg_suffix``  
 
-#### Validation set
+#### Validation Set
 
 + **Source side**: ``val_tst_dir + val_prefix + '.' + val_src_suffix``    
 + **Target side**:  
@@ -35,7 +40,7 @@ Both sides of the training dataset and the source sides of the validation/test s
 ``val_tst_dir + val_prefix + '.' + val_ref_suffix + '1'``  
 ``......``
 
-#### Test dataset
+#### Test Dataset
 + **Source side**: ``val_tst_dir + test_prefix + '.' + val_src_suffix``  
 + **Target side**:  
 ``for test_prefix in tests_prefix``

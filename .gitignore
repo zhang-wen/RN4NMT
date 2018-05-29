@@ -23,8 +23,8 @@ log*
 nohup.out*
 sb*
 
-data/*
-data*
+#data/*
+#data*
 wmodel*
 wmodel/
 wvalid/
@@ -35,7 +35,7 @@ wexp*
 wLogs*
 test/
 *.pyc
-/data
+#/data
 /wmodel
 /wmodels*
 /wvalid
