@@ -20,7 +20,7 @@ This system has been tested in the following environment.
 + Validation Set was composed of the ASR devset 1 and devset 2 from IWSLT 2005
 + Testing dataset is the IWSLT 2005 test set.
 
-### Data Parepretion
+### Data Preparation
 Name the file names of the datasets according to the variables in the ``wargs.py`` file  
 Both sides of the training dataset and the source sides of the validation/test sets are tokenized by using the Standford tokenizer.
 
