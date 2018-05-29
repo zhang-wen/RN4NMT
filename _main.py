@@ -118,8 +118,7 @@ def main():
         wargs.start_epoch = eid + 1
 
     else:
-        if wargs.model != 8:
-            for n, p in nmtModel.named_parameters(): init_params(p, n, True)
+        for n, p in nmtModel.named_parameters(): init_params(p, n, True)
         optim = Optim(
             wargs.opt_mode, wargs.learning_rate, wargs.max_grad_norm,
             learning_rate_decay=wargs.learning_rate_decay,

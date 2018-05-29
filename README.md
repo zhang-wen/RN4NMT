@@ -15,14 +15,14 @@ This system has been tested in the following environment.
 	+ unzip
 	+ ``export CLASSPATH="./stanford-parser-full-2017-06-09/stanford-parser.jar:$CLASSPATH"``
 
-### Datasets
-Name the file names of the datasets according to the variables in the ``wargs.py`` file  
-Both sides of the training dataset and the source sides of the validation/test sets are tokenized by using the Standford tokenizer.
-
-#### Toy Dataset
+### Toy Dataset
 + The training data consists of 44K sentences from the tourism and travel domain
 + Validation Set was composed of the ASR devset 1 and devset 2 from IWSLT 2005
 + Testing dataset is the IWSLT 2005 test set.
+
+### Data Parepretion
+Name the file names of the datasets according to the variables in the ``wargs.py`` file  
+Both sides of the training dataset and the source sides of the validation/test sets are tokenized by using the Standford tokenizer.
 
 #### Training Dataset
 
