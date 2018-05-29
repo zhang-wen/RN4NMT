@@ -52,7 +52,7 @@ Both sides of the training dataset and the source sides of the validation/test s
 ``......``
  
 ### Training
-Firstly, training parameters in the file ``wargs.py`` can be changed  
+Firstly, training parameters in the file ``wargs.py`` should be configured
 run ``python _main.py``
 
 ### Inference
