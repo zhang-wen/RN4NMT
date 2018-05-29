@@ -52,11 +52,12 @@ Both sides of the training dataset and the source sides of the validation/test s
 ``......``
  
 ### Training
-Firstly, training parameters in the file ``wargs.py`` should be configured
+Before training, parameters about training in the file ``wargs.py`` should be configured  
 run ``python _main.py``
 
 ### Inference
-Assume that the trained model is named ``best.model.pt``
+Assume that the trained model is named ``best.model.pt``  
+Before decoding, parameters about inference in the file ``wargs.py`` should be configured  
 + translate one sentence  
 run ``python wtrans.py -m best.model.pt``
 + translate one file  
