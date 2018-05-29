@@ -39,8 +39,6 @@ class NMT(nn.Module):
             if wargs.gpu_id and not xs.is_cuda: xs = xs.cuda()
             xs = Variable(xs, requires_grad=False, volatile=True)
 
-        #xs, s0 = self.encoder(xs, xs_mask)
-
         xs = self.encoder(xs, xs_mask, test=test)
         s0 = self.init_state(xs, xs_mask)
         uh = self.ha(xs)
@@ -185,8 +183,6 @@ class Decoder(nn.Module):
         s_above = self.gru1(y_tm1, y_mask, s_tm1)
         # (slen, batch_size) (batch_size, enc_hid_size)
         alpha_ij, attend = self.attention(s_above, xs_h, uh, xs_mask)
-        #alpha_ij2, attend2 = self.attention(s_above, xs_rel_h, uh_rel, xs_mask)
-        #s_t = self.gru2(attend, y_mask, s_above, x2_t=attend2)
         s_t = self.gru2(attend, y_mask, s_above)
 
         return attend, s_t, y_tm1, alpha_ij, None, None, None
@@ -229,7 +225,6 @@ class Decoder(nn.Module):
     def step_out(self, s, y, c):
 
         # (max_tlen_batch - 1, batch_size, dec_hid_size)
-        #logit = self.ls(s) + self.ly(y) + self.lc(c) + self.lc2(c2)
         logit = self.ls(s) + self.ly(y) + self.lc(c)
         # (max_tlen_batch - 1, batch_size, out_size)
 

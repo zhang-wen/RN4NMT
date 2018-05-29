@@ -11,16 +11,12 @@ class Classifier(nn.Module):
         super(Classifier, self).__init__()
 
         self.dropout = nn.Dropout(wargs.drop_rate)
-        if wargs.model == 8:
-            self.map_vocab = XavierLinear(input_size, output_size, bias=False)
-        else:
-            self.map_vocab = nn.Linear(input_size, output_size)
+        self.map_vocab = nn.Linear(input_size, output_size)
 
         if trg_lookup_table is not None:
             assert input_size == trg_wemb_size
             wlog('Copying weight of trg_lookup_table into classifier')
             self.map_vocab.weight = trg_lookup_table.weight
-        #self.log_prob = nn.LogSoftmax()
         self.log_prob = MyLogSoftmax(wargs.self_norm_alpha)
 
         weight = tc.ones(output_size)
@@ -42,26 +38,6 @@ class Classifier(nn.Module):
                     + epsilon)) / noise
 
         return logit
-
-    def logit_to_prob(self, logit, gumbel=None, tao=None):
-
-        # (L, B)
-        d1, d2, _ = logit.size()
-        logit = self.get_a(logit)
-        if gumbel is None:
-            p = self.softmax(logit)
-        else:
-            #print 'logit ..............'
-            #print tc.max((logit < 1e+10) == False)
-            #print 'gumbel ..............'
-            #print tc.max((gumbel < 1e+10) == False)
-            #print 'aaa ..............'
-            #aaa = (gumbel.add(logit)) / tao
-            #print tc.max((aaa < 1e+10) == False)
-            p = self.softmax((gumbel.add(logit)) / tao)
-        p = p.view(d1, d2, self.output_size)
-
-        return p
 
     def nll_loss(self, pred, gold, gold_mask):
 

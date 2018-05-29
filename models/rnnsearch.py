@@ -108,42 +108,16 @@ class Attention(nn.Module):
 
     def forward(self, s_tm1, xs_h, uh, xs_mask=None):
 
-        #d1, d2, d3 = uh.size()
-        # (b, dec_hid_size) -> (b, aln) -> (1, b, aln) -> (slen, b, aln) -> (slen, b)
-        #print self.sa(s_tm1)[None, :, :].size(), uh.size()
-        #print 'xs_mask: ', xs_mask
-        #print 'uh: ', uh
-        #print 's_tm1: ', s_tm1
-        #print self.sa(s_tm1)[None, :, :]
-        #print 'tanh: ', self.tanh(self.sa(s_tm1)[None, :, :] + uh)
-        #print 'no exp: ', self.a1(self.tanh(self.sa(s_tm1)[None, :, :] + uh)).squeeze(2)
-        #print self.a1.weight
-        #e_ij = self.a1(self.tanh(self.sa(s_tm1)[None, :, :] + uh)).squeeze(2).exp()
-
         _check_tanh_sa = self.tanh(self.sa(s_tm1)[None, :, :] + uh)
         _check_a1_weight = self.a1.weight
         _check_a1 = self.a1(_check_tanh_sa).squeeze(2)
 
         e_ij = self.maskSoftmax(_check_a1, mask=xs_mask, dim=0)
 
-        # better softmax version with max for numerical stability
-        #e_ij = self.a1(self.tanh(self.sa(s_tm1)[None, :, :] + uh)).squeeze(2)
-        #print 'e_ij: ', e_ij
-        #print 'e_ij - max: ', e_ij - e_ij.max(0)[0]
-        #e_ij = (e_ij - e_ij.max(0)[0]).exp()
-        #print 'exp e_ij - max: ', e_ij
-
-        #if xs_mask is not None: e_ij = e_ij * xs_mask
-        #print 'mask exp e_ij: ', e_ij
-
-        # probability in each column: (slen, b)
-        #e_ij = e_ij / e_ij.sum(0)[None, :]
-
         # weighted sum of the h_j: (b, enc_hid_size)
         attend = (e_ij[:, :, None] * xs_h).sum(0)
 
         return _check_tanh_sa, _check_a1_weight, _check_a1, e_ij, attend
-        #return e_ij, attend
 
 class Decoder(nn.Module):
 
@@ -164,7 +138,6 @@ class Decoder(nn.Module):
         self.ls = nn.Linear(wargs.dec_hid_size, out_size)
         self.ly = nn.Linear(wargs.trg_wemb_size, out_size)
         self.lc = nn.Linear(wargs.enc_hid_size, out_size)
-        #self.map_vocab = nn.Linear(wargs.out_size, trg_vocab_size)
 
         self.classifier = Classifier(wargs.out_size, trg_vocab_size,
                                      self.trg_lookup_table if wargs.proj_share_weight is True else None)
@@ -191,7 +164,6 @@ class Decoder(nn.Module):
         s_t = self.gru2(attend, y_mask, s_above)
 
         return attend, s_t, y_tm1, alpha_ij, _check_tanh_sa, _check_a1_weight, _check_a1
-        #return attend, s_t, y_tm1, alpha_ij
 
     def forward(self, s_tm1, xs_h, ys, uh, xs_mask, ys_mask, isAtt=False):
 
@@ -216,7 +188,6 @@ class Decoder(nn.Module):
 
         logit = tc.stack(sent_logit, dim=0)
         logit = logit * ys_mask[:, :, None]  # !!!!
-        #del s, y, c
 
         results = (logit, tc.stack(attends, 0)) if isAtt is True else logit
 
